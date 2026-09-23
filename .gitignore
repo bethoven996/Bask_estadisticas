@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+basquet.db
+static/fotos_jugadores/*
+!static/fotos_jugadores/.gitkeep
+.env
