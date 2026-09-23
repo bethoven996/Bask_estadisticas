@@ -7,8 +7,12 @@ from sqlalchemy.orm import Session
 
 from app.database import SessionLocal
 from app import models
+import os
+from dotenv import load_dotenv
 
-SECRET_KEY = "cambiar-esto-por-algo-largo-y-random-en-produccion"
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY", "clave-de-desarrollo-solo-local")
 ALGORITHM = "HS256"
 EXPIRACION_MINUTOS = 60 * 24  # 24 horas
 

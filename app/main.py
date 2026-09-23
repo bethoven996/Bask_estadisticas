@@ -1,7 +1,7 @@
 import os
 import shutil
 import uuid
-
+import os
 from fastapi import FastAPI, Depends, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -20,9 +20,11 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Basquet Stats API")
 
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[FRONTEND_URL],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -124,7 +126,8 @@ def subir_foto_jugador(
     with open(ruta, "wb") as buffer:
         shutil.copyfileobj(foto.file, buffer)
 
-    jugador.foto_url = f"http://localhost:8000/static/fotos_jugadores/{nombre_archivo}"
+        backend_url = os.getenv("BACKEND_URL", "http://localhost:8000")
+    jugador.foto_url = f"{backend_url}/static/fotos_jugadores/{nombre_archivo}"
     db.commit()
     db.refresh(jugador)
     return jugador
