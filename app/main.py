@@ -20,11 +20,12 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Basquet Stats API")
 
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+FRONTEND_URLS = os.getenv("FRONTEND_URL", "http://localhost:5173")
+origenes_permitidos = [url.strip() for url in FRONTEND_URLS.split(",")]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL],
+    allow_origins=origenes_permitidos,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
