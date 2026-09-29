@@ -168,3 +168,15 @@ def crear_estadistica(
 @app.get("/estadisticas", response_model=list[schemas.Estadistica])
 def listar_estadisticas(db: Session = Depends(get_db)):
     return db.query(models.Estadistica).all()
+@app.delete("/estadisticas/{estadistica_id}")
+def borrar_estadistica(
+    estadistica_id: int,
+    db: Session = Depends(get_db),
+    usuario: models.Usuario = Depends(usuario_actual),
+):
+    estadistica = db.query(models.Estadistica).filter(models.Estadistica.id == estadistica_id).first()
+    if not estadistica:
+        raise HTTPException(status_code=404, detail="Estadística no encontrada")
+    db.delete(estadistica)
+    db.commit()
+    return {"mensaje": "Estadística eliminada"}
