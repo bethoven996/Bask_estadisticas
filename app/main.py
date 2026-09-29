@@ -180,3 +180,18 @@ def borrar_estadistica(
     db.delete(estadistica)
     db.commit()
     return {"mensaje": "Estadística eliminada"}
+
+@app.delete("/jugadores/{jugador_id}")
+def borrar_jugador(
+    jugador_id: int,
+    db: Session = Depends(get_db),
+    usuario: models.Usuario = Depends(usuario_actual),
+):
+    jugador = db.query(models.Jugador).filter(models.Jugador.id == jugador_id).first()
+    if not jugador:
+        raise HTTPException(status_code=404, detail="Jugador no encontrado")
+
+    db.query(models.Estadistica).filter(models.Estadistica.jugador_id == jugador_id).delete()
+    db.delete(jugador)
+    db.commit()
+    return {"mensaje": "Jugador eliminado"}
