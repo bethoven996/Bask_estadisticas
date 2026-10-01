@@ -65,11 +65,11 @@ class Partido(PartidoBase):
 class EstadisticaBase(BaseModel):
     partido_id: int
     jugador_id: int
-    puntos: int = 0
-    rebotes: int = 0
-    asistencias: int = 0
-    robos: int = 0
-    perdidas: int = 0
+    puntos: float = 0
+    rebotes: float = 0
+    asistencias: float = 0
+    robos: float = 0
+    perdidas: float = 0
     tiros_intentados: int = 0
     tiros_convertidos: int = 0
     minutos_jugados: Optional[float] = None
